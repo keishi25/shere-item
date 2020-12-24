@@ -1,0 +1,25 @@
+/*tableのはみ出しの制御*/
+table {
+  display: block;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+/*tables最左列固定*/
+.table-fixed th:first-child, td:first-child {
+  position: sticky;
+  left: 0;
+}
+
+.table-fixed tr:nth-of-type(odd) th:first-child {
+  background-color: #eee;
+}
+
+.table-fixed tr:nth-of-type(odd) td:first-child {
+  background-color: #eee;
+}
+
+.table-fixed tr:nth-of-type(even) td:first-child {
+  background-color: #fff;
+}

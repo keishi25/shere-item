@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import configparser
+import json
+import ast
+
+# Read settings.ini
+config_ini = configparser.ConfigParser()
+config_ini.read('./ini/config.ini', encoding='utf-8')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +30,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '3*5wuiprois+1(e%!c$kpa-)0cuv8yml@mxy4!5jx2w%p*!)4k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config_ini['mode']['debug']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ast.literal_eval(config_ini.get("ip_address", "allowed_hosts"))
 
 
 # Application definition
@@ -75,13 +82,9 @@ WSGI_APPLICATION = 'share_item.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+# postgre セッティング
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = ast.literal_eval(config_ini.get("db", "postgres"))
 
 
 # Password validation
@@ -132,3 +135,4 @@ STATICFILES_DIRS = [
 
 # collectstaticで集計される場所
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+

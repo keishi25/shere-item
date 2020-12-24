@@ -12,3 +12,4 @@ class Share(TemplateView):
         data_dict = {"a": 2}
 
         return render(request, 'share/share.html', data_dict)
+
