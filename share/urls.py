@@ -1,6 +1,11 @@
 from django.urls import path
-from share.views import Share
+from . import views
 
 urlpatterns = [
-    path(r'', Share.as_view(template_name='share/share.html'), name='share'),
+    path('', views.MemberList.as_view(), name='member'),
+    path('<int:pk>/', views.MemberDetail.as_view(), name='detail'),
+    path('create/', views.MemberCreate.as_view(), name='create'),
+    path('<int:pk>/update/', views.MemberUpdate.as_view(), name='update'),
+    path('<int:pk>/delete/', views.MemberDelete.as_view(), name='delete'),
 ]
+

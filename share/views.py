@@ -1,15 +1,49 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
-# Create your views here.
+from .models import Member
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse,  reverse_lazy
 
 
-class Share(TemplateView):
+class MemberList(ListView):
+    model = Member
 
-    template_name = 'share/share.html'
 
-    def get(self, request, *args, **kwargs):
+class MemberDetail(DetailView):
+    model = Member
 
-        data_dict = {"a": 2}
 
-        return render(request, 'share/share.html', data_dict)
+class MemberCreate(CreateView):
+    # template_name = 'user/member_form.html'
+    model = Member
+    fields = ['name', 'nickname', 'age']
+
+    def get_success_url(self):
+        return reverse('detail', kwargs={'pk': self.object.pk})
+
+
+class MemberUpdate(UpdateView):
+    template_name = 'share/member_update_form.html'
+    model = Member
+    fields = ['name', 'nickname', 'age']
+
+    def get_success_url(self):
+        return reverse('detail', kwargs={'pk': self.object.pk})
+
+    def get_form(self):
+        form = super(MemberUpdate, self).get_form()
+        form.fields['name'].label = '名前'
+        form.fields['nickname'].label = 'ニックネーム'
+        form.fields['age'].label = '年齢'
+        return form
+
+
+class MemberDelete(DeleteView):
+    # template_name = 'user/member_confirm_delete.html'
+    model = Member
+
+    success_url = reverse_lazy('member')
+
+
+
+
 
